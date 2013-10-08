@@ -1,9 +1,13 @@
 fancy_echo "Installing Postgres, a good open source relational database ..."
   brew install postgres --no-python
-  initdb /usr/local/var/postgres -E utf8
+  if [[ -f /usr/local/var/postgres ]]; then
+    initdb /usr/local/var/postgres -E utf8
+  fi
+  ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing Redis, a good key-value database ..."
   brew install redis
+  ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
   brew install the_silver_searcher
@@ -31,9 +35,11 @@ fancy_echo "Installing watch, to execute a program periodically and show the out
 
 fancy_echo "Installing memcached, a key-value stored in memory ..."
   brew install memcached
+  ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing elasticsearch, a database specialized for searching ..."
   brew install elasticsearch
+  ln -sfv /usr/local/opt/elasticsearch/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing git ..."
   brew install git
