@@ -77,6 +77,24 @@ fancy_echo "Installing QT, used by Capybara Webkit for headless Javascript integ
 
 fancy_echo "Installing watch, to execute a program periodically and show the output ..."
   brew install watch
+
+fancy_echo "Installing memcached, a key-value stored in memory ..."
+  brew install memcached
+
+fancy_echo "Installing elasticsearch, a database specialized for searching ..."
+  brew install elasticsearch
+
+fancy_echo "Installing git ..."
+  brew install git
+
+fancy_echo "Installing git-flow, a branching model and tool ..."
+  brew install git-flow
+
+fancy_echo "Installing phantomjs, an headless browser used for running unit tests ..."
+  brew install phantomjs
+
+fancy_echo "Installing nodejs, a javascript runtime used by rails ..."
+  brew install nodejs
 ### end mac-components/packages
 
 fancy_echo "Installing rbenv, to change Ruby versions ..."
