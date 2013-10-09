@@ -1,8 +1,8 @@
-fancy_echo "Installing Ruby 2.0.0-p247 ..."
-  rbenv install 2.0.0-p247
+fancy_echo "Installing Ruby 1.9.3-p448 ..."
+  rbenv install 1.9.3-p448
 
-fancy_echo "Setting Ruby 2.0.0-p247 as global default Ruby ..."
-  rbenv global 2.0.0-p247
+fancy_echo "Setting Ruby 1.9.3-p448 global default Ruby ..."
+  rbenv global 1.9.3-p448
   rbenv rehash
 
 fancy_echo "Updating to latest Rubygems version ..."
