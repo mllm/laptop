@@ -1,13 +1,15 @@
 fancy_echo "Installing rbenv, to change Ruby versions ..."
   brew install rbenv
 
-#  if ! grep -qs "rbenv init" ~/.zshrc; then
-#    echo 'eval "$(rbenv init -)"' >> ~/.zshrc
-#
-#    fancy_echo "Enable shims and autocompletion ..."
-#      eval "$(rbenv init -)"
-#  fi
-#  source ~/.zshrc
+ if ! grep -qs "rbenv init" ~/.zshrc; then
+   echo 'eval "$(rbenv init - zsh)"' >> ~/.zshrc
+
+   fancy_echo "Enable shims and autocompletion ..."
+     eval "$(rbenv init - zsh)"
+ fi
+
+ # Do not source .zshrc for now. It is failing.
+ # source "~/.zshrc"
 
 fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up binaries after installing gems with binaries..."
   brew install rbenv-gem-rehash
