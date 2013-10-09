@@ -99,6 +99,8 @@ fancy_echo "Installing rbenv, to change Ruby versions ..."
    fancy_echo "Enable shims and autocompletion ..."
      eval "$(rbenv init - zsh)"
  fi
+
+ # Do not source .zshrc for now. It is failing.
  # source "~/.zshrc"
 
 fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up binaries after installing gems with binaries..."
@@ -108,9 +110,10 @@ fancy_echo "Installing ruby-build, to install Rubies ..."
   brew install ruby-build
 ### end mac-components/rbenv
 
-# fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
-  # brew tap homebrew/dupes
-  # brew install apple-gcc42
+# GCC does not seems to be necessary to install Ruby.
+fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
+  brew tap homebrew/dupes
+  brew install apple-gcc42
 
 fancy_echo "Upgrading and linking OpenSSL ..."
   brew install openssl
