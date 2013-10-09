@@ -13,16 +13,6 @@ trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
 set -e
 ### end common-components/exit-trap
 
-if [ ! -d "$HOME/.bin/" ]; then
-  mkdir "$HOME/.bin"
-fi
-
-if [[ ":$PATH:" != *":$HOME/.bin:"* ]]; then
-  echo 'export PATH="$HOME/.bin:$PATH"' >> ~/.zshrc
-  source ~/.zshrc
-fi
-### end common-components/check-home-bin
-
 fancy_echo() {
   printf "\n%b\n" "$1"
 }
@@ -35,24 +25,25 @@ fi
 ### end mac-components/zsh-fix
 
 fancy_echo "Installing Homebrew, a good OS X package manager ..."
-  ruby <(curl -fsS https://raw.github.com/mxcl/homebrew/go)
+  if hash brew 2>/dev/null; then
+    fancy_echo "Homebrew is already installed, updating ..."
+  else
+    ruby <(curl -fsS https://raw.github.com/mxcl/homebrew/go)
+  fi
   brew update
-
-if ! grep -qs "recommended by brew doctor" ~/.zshrc; then
-  fancy_echo "Put Homebrew location earlier in PATH ..."
-    echo "\n# recommended by brew doctor" >> ~/.zshrc
-    echo "export PATH='/usr/local/bin:$PATH'\n" >> ~/.zshrc
-    source ~/.zshrc
-fi
 
 ### end mac-components/homebrew
 
 fancy_echo "Installing Postgres, a good open source relational database ..."
   brew install postgres --no-python
-  initdb /usr/local/var/postgres -E utf8
+  if [[ -f /usr/local/var/postgres ]]; then
+    initdb /usr/local/var/postgres -E utf8
+  fi
+  ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing Redis, a good key-value database ..."
   brew install redis
+  ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
   brew install the_silver_searcher
@@ -80,9 +71,11 @@ fancy_echo "Installing watch, to execute a program periodically and show the out
 
 fancy_echo "Installing memcached, a key-value stored in memory ..."
   brew install memcached
+  ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing elasticsearch, a database specialized for searching ..."
   brew install elasticsearch
+  ln -sfv /usr/local/opt/elasticsearch/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing git ..."
   brew install git
@@ -100,14 +93,13 @@ fancy_echo "Installing nodejs, a javascript runtime used by rails ..."
 fancy_echo "Installing rbenv, to change Ruby versions ..."
   brew install rbenv
 
-  if ! grep -qs "rbenv init" ~/.zshrc; then
-    echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+ if ! grep -qs "rbenv init" ~/.zshrc; then
+   echo 'eval "$(rbenv init - zsh)"' >> ~/.zshrc
 
-    fancy_echo "Enable shims and autocompletion ..."
-      eval "$(rbenv init -)"
-  fi
-
-  source ~/.zshrc
+   fancy_echo "Enable shims and autocompletion ..."
+     eval "$(rbenv init - zsh)"
+ fi
+ # source "~/.zshrc"
 
 fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up binaries after installing gems with binaries..."
   brew install rbenv-gem-rehash
@@ -116,9 +108,9 @@ fancy_echo "Installing ruby-build, to install Rubies ..."
   brew install ruby-build
 ### end mac-components/rbenv
 
-fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
-  brew tap homebrew/dupes
-  brew install apple-gcc42
+# fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
+  # brew tap homebrew/dupes
+  # brew install apple-gcc42
 
 fancy_echo "Upgrading and linking OpenSSL ..."
   brew install openssl
@@ -126,11 +118,11 @@ fancy_echo "Upgrading and linking OpenSSL ..."
 export CC=gcc-4.2
 ### end mac-components/compiler-and-libraries
 
-fancy_echo "Installing Ruby 2.0.0-p247 ..."
-  rbenv install 2.0.0-p247
+fancy_echo "Installing Ruby 1.9.3-p448 ..."
+  rbenv install 1.9.3-p448
 
-fancy_echo "Setting Ruby 2.0.0-p247 as global default Ruby ..."
-  rbenv global 2.0.0-p247
+fancy_echo "Setting Ruby 1.9.3-p448 global default Ruby ..."
+  rbenv global 1.9.3-p448
   rbenv rehash
 
 fancy_echo "Updating to latest Rubygems version ..."
