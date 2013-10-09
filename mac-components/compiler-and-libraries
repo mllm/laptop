@@ -1,6 +1,7 @@
-fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
-  brew tap homebrew/dupes
-  brew install apple-gcc42
+# GCC does not seems to be necessary to install Ruby.
+# fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
+  # brew tap homebrew/dupes
+  # brew install apple-gcc42
 
 fancy_echo "Upgrading and linking OpenSSL ..."
   brew install openssl
