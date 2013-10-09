@@ -36,9 +36,7 @@ fancy_echo "Installing Homebrew, a good OS X package manager ..."
 
 fancy_echo "Installing Postgres, a good open source relational database ..."
   brew install postgres --no-python
-  if [[ -f /usr/local/var/postgres ]]; then
-    initdb /usr/local/var/postgres -E utf8
-  fi
+  initdb /usr/local/var/postgres -E utf8
   ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 
 fancy_echo "Installing Redis, a good key-value database ..."
